@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Список покупок</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 50px;
+            display: flex;
+            justify-content: center; }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 400px; }
+        h1 {
+            text-align: center;
+            color: #000000; }
+        form {
+            display: flex;
+            margin-bottom: 20px; }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #000000;
+            border-radius: 4px 0 0 4px;
+            outline: none; }
+        button {
+            padding: 10px 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer; }
+        button:hover {
+            background: #218838; }
+        ul { list-style-type: none;
+            padding: 0; }
+        li { display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee; }
+        .bought {
+            text-decoration: line-through;
+            color: #000000; }
+        .actions a {
+            text-decoration: none;
+            margin-left: 10px;
+            font-size: 14px; }
+        .btn-done { color: #007bff; }
+        .btn-delete { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛒 Список покупок</h1>
+
+        <!-- Форма для додавання товару -->
+        <form action="/add" method="POST">
+            <input type="text" name="name" placeholder="Введіть назву товару..." required autocomplete="off">
+            <button type="submit">Додати</>
+        </form>
+
+        <!-- Список товарів -->
+        <ul>
+            {% for item in items %}
+                <li>
+                    <span class="{% if item.bought %}bought{% endif %}">{{ item.name }}</span>
+                    <div class="actions">
+                        {% if not item.bought %}
+                            <a href="/bought/{{ item.id }}" class="btn-done">Куплено</a>
+                        {% endif %}
+                        <a href="/delete/{{ item.id }}" class="btn-delete">Видалити</a>
+                    </div>
+                </li>
+            {% else %}
+                <p style="text-align: center; color: #000000;">Список покупок порожній</p>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
